@@ -6,7 +6,7 @@ interface InputPlusProps {
 }
 
 export const InpuPlus: React.FC<InputPlusProps> = ({onAdd}) => {
-    const [inputValue, setInputValue] = useState ('')
+    const [inputValue, setInputValue] = useState('')
     const addTask = useCallback(() => {
         onAdd(inputValue)
         setInputValue('')
@@ -16,19 +16,20 @@ export const InpuPlus: React.FC<InputPlusProps> = ({onAdd}) => {
             <input
                 type="text"
                 className={styles.inputPlusValue}
-                value = {inputValue}
+                value={inputValue}
                 onChange={(evt) => {
                     setInputValue(evt.target.value)
                 }}
-                onKeyDown = {(e) => {
+                onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         addTask()
                     }
                 }}
+                placeholder="Type here..."
             />
             <button onClick={addTask}
-            aria-label = "Add"
-            className={styles.inputPlusButton}
+                    aria-label="Add"
+                    className={styles.inputPlusButton}
             />
         </div>
     )

@@ -1,5 +1,6 @@
-import create from 'zustand'
+import create, {State, StateCreator} from 'zustand'
 import {generateId} from '../helper';
+import {devtools} from 'zustand/middleware';
 
 interface Task {
     id: string
@@ -14,8 +15,32 @@ interface ToDoStore {
     removeTask: (id: string) => void
 }
 
-export const useTodoStore = create<ToDoStore>((set, get) => ({
-    tasks: [],
+function isToDoStore(object: any): object is ToDoStore {
+    return 'tasks' in object
+}
+
+const localStoreUpdate = <T extends State>(config: StateCreator<T>): StateCreator<T> => (set, get, api) => config((nextState, ...args) => {
+    if (isToDoStore(nextState)) {
+        window.localStorage.setItem('tasks', JSON.stringify(
+            nextState.tasks
+        ))
+        set(nextState, ...args)
+    }
+}, get, api)
+
+const getCurrentState = () => {
+    try {
+        const currentState = (JSON.parse(window.localStorage.getItem('tasks') || '[]')) as Task[]
+        return currentState
+    } catch (err) {
+        window.localStorage.setItem('tasks', '[]')
+    }
+    return []
+}
+
+
+export const useTodoStore = create<ToDoStore>(localStoreUpdate(devtools(((set, get) => ({
+    tasks: getCurrentState(),
     createTask: (title) => {
         const {tasks} = get()
         const newTask = {
@@ -26,13 +51,13 @@ export const useTodoStore = create<ToDoStore>((set, get) => ({
         set({
             tasks: [newTask].concat(tasks),
         })
-            },
-    updateTask: (id:string, title: string) => {
+    },
+    updateTask: (id: string, title: string) => {
         const {tasks} = get()
         set({
             tasks: tasks.map((task) => ({
                 ...task,
-                    title: task.id === id ? title : task.title
+                title: task.id === id ? title : task.title
             }))
         })
     },
@@ -43,4 +68,4 @@ export const useTodoStore = create<ToDoStore>((set, get) => ({
             )
         })
     },
-}))
+})))))

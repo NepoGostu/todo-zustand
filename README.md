@@ -2,8 +2,7 @@
  
  #### Мини проект todo c использованием zustand
  
- ![gif](https://github.com/NepoGostu/todo-zustand/blob/main/public/todo_app.gif){width=600 height=400}
- <img src="https://github.com/NepoGostu/todo-zustand/blob/main/public/todo_app.gif" width="400" height="250">
+ <img src="https://github.com/NepoGostu/todo-zustand/blob/main/public/todo_app.gif" width="600" height="450">
  
  библиотека zustand: https://yarnpkg.com/package/zustand  
  cборка на ViteJs: https://vitejs.dev/

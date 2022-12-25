@@ -2,7 +2,7 @@
  
  #### Мини проект todo c использованием zustand
  
- [!gif](https://github.com/NepoGostu/todo-zustand/blob/main/public/todo_app.gif)
+ ![gif](https://github.com/NepoGostu/todo-zustand/blob/main/public/todo_app.gif)
  
  библиотека zustand: https://yarnpkg.com/package/zustand  
  cборка на ViteJs: https://vitejs.dev/

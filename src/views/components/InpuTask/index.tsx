@@ -1,4 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
+import {Reorder, useDragControls, useMotionValue} from 'framer-motion'
 import styles from './index.module.scss'
 
 interface InputPlusProps {
@@ -7,6 +8,7 @@ interface InputPlusProps {
     onDone: (id: string) => void
     onEdited: (id: string, value: string) => void
     onRemoved: (id: string) => void
+    task: any
 }
 
 export const InputTask: React.FC<InputPlusProps> = ({
@@ -14,7 +16,8 @@ export const InputTask: React.FC<InputPlusProps> = ({
                                                         title,
                                                         onDone,
                                                         onEdited,
-                                                        onRemoved
+                                                        onRemoved,
+                                                        task
                                                     }) => {
 
     const [checked, setChecked] = useState(false)
@@ -30,19 +33,25 @@ export const InputTask: React.FC<InputPlusProps> = ({
 
     return (
         <div className={styles.inputTask}>
-            <label className={styles.inputTaskLabel}>
-                <input type="checkbox"
-                       disabled={isEditMode}
-                       checked={checked}
-                       className={styles.inputTaskCheckbox}
-                       onChange={(evt) => {
-                           setChecked(evt.target.checked)
-                           if (evt.target.checked) {
-                               setTimeout(() => {onDone(id)}, 300)
 
-                           }
-                       }}
+            <label className={styles.inputTaskLabel}>
+
+                <input
+
+                    type="checkbox"
+                    disabled={isEditMode}
+                    checked={checked}
+                    className={styles.inputTaskCheckbox}
+                    onChange={(evt) => {
+                        setChecked(evt.target.checked)
+                        if (evt.target.checked) {
+                            setTimeout(() => {
+                                onDone(id)
+                            }, 300)
+                        }
+                    }}
                 />
+
                 {isEditMode ? (
                         <input
                             value={value}
@@ -62,7 +71,10 @@ export const InputTask: React.FC<InputPlusProps> = ({
                     :
                     (<h3 className={styles.inputTaskTitle}>{title}</h3>)
                 }
+
             </label>
+
+
             {isEditMode ? (
                 <button
                     aria-lable="Save"
